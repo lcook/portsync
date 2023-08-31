@@ -1,0 +1,4 @@
+*.orig
+.idea
+portsync
+todo
