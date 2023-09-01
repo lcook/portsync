@@ -18,13 +18,13 @@ when updating packages albeit greatly reduced._
 ## Features
 
 - Fetch and display the latest package versions from [portscout](https://portscout.freebsd.org/).
-- Apply new updates to your local ports tree based.
+- Apply new updates to your local ports tree.
 - Streamlined commit process for updated packages.
-- Conveniently build and test any changes made.
+- Conveniently build and test changes made.
 
 ## Get started
 
-1. Ensure you have Go installed on your system (minimum of 1.21). 
+1. Ensure you have Go installed on your system (>=1.21).
 2. Clone the repository.
 3. Build and install.
 ```sh
@@ -53,7 +53,8 @@ may pass them to the utility. See `portsync -h` for the appropriate flags.
 
 ## Usage
 
-The general workflow is pretty straightforward.
+The general workflow is pretty straightforward. Below are a few examples of what
+you can do.
 
 Display any potential package updates for a given maintainer
 ```sh
