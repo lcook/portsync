@@ -10,12 +10,12 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	"path/filepath"
 	"slices"
 	"strings"
 	"sync"
 
 	. "github.com/lcook/portsync/internal/_package"
+	. "github.com/lcook/portsync/internal/util"
 	"github.com/mmcdole/gofeed"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -87,15 +87,7 @@ func (ps Portscout) Fetch(cmd *cobra.Command) (*Packages, error) {
 }
 
 func (ps Portscout) Transform(cmd *cobra.Command, pkg *Package) (*Package, error) {
-	base := viper.GetString("base")
-	if strings.HasPrefix(base, "~/") {
-		dir, _ := os.UserHomeDir()
-		base = filepath.Join(dir, base[2:])
-	}
-	if !strings.HasSuffix(base, "/") {
-		base += "/"
-	}
-	pkgPath := base + pkg.Origin
+	pkgPath := CleanPath(viper.GetString("base")) + pkg.Origin
 	if _, err := os.Stat(pkgPath); os.IsNotExist(err) {
 		return &Package{}, err
 	}
