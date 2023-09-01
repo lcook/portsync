@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"slices"
 	"strings"
 	"sync"
@@ -87,6 +88,10 @@ func (ps Portscout) Fetch(cmd *cobra.Command) (*Packages, error) {
 
 func (ps Portscout) Transform(cmd *cobra.Command, pkg *Package) (*Package, error) {
 	base := viper.GetString("base")
+	if strings.HasPrefix(base, "~/") {
+		dir, _ := os.UserHomeDir()
+		base = filepath.Join(dir, base[2:])
+	}
 	if !strings.HasSuffix(base, "/") {
 		base += "/"
 	}

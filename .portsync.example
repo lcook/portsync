@@ -1,8 +1,9 @@
 # Path to your local ports directory.
-#base = "/usr/ports"
+#base = "/usr/ports"  # Default
+#base = "~/git/ports"
 
 # Default maintainer used by portscout.
-#maintainer = "ports@FreeBSD.org"
+#maintainer = "ports@FreeBSD.org"  # Default
 
 # By default all packages associated with a
 # maintainer are used.  You can limit this
@@ -12,4 +13,5 @@
 
 # Location in which the Makefile scripts
 # are located.
-#scriptDir = "/usr/lcoal/share/portsync/Mk"
+#scriptDir = "/usr/lcoal/share/portsync/Mk"  # Default
+#scriptDir = "~/Mk"
