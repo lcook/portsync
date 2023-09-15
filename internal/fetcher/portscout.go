@@ -17,7 +17,6 @@ import (
 	. "github.com/lcook/portsync/internal/_package"
 	. "github.com/lcook/portsync/internal/util"
 	"github.com/mmcdole/gofeed"
-	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
@@ -32,7 +31,7 @@ const (
 
 type Portscout struct{}
 
-func (ps Portscout) Fetch(cmd *cobra.Command) (*Packages, error) {
+func (ps Portscout) Fetch() (*Packages, error) {
 	maintainer := viper.GetString("maintainer")
 	data, err := feed(rssURL + maintainer)
 	if err != nil {
@@ -52,7 +51,7 @@ func (ps Portscout) Fetch(cmd *cobra.Command) (*Packages, error) {
 		go func(i *gofeed.Item) {
 			defer wgroup.Done()
 			entry := feedEntry{i}
-			pkg, err := ps.Transform(cmd, &Package{
+			pkg, err := ps.Transform(&Package{
 				Origin: entry.ext("portcat") + "/" + entry.ext("portname"),
 				Latest: entry.ext("newversion"),
 				Type:   packageDefault,
@@ -86,7 +85,7 @@ func (ps Portscout) Fetch(cmd *cobra.Command) (*Packages, error) {
 	return &packages, nil
 }
 
-func (ps Portscout) Transform(cmd *cobra.Command, pkg *Package) (*Package, error) {
+func (ps Portscout) Transform(pkg *Package) (*Package, error) {
 	pkgPath := CleanPath(viper.GetString("base")) + pkg.Origin
 	if _, err := os.Stat(pkgPath); os.IsNotExist(err) {
 		return &Package{}, err

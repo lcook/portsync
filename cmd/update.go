@@ -23,7 +23,7 @@ var updateCmd = &cobra.Command{
 any necessary updates to your local ports tree, ensuring that it
 remains in sync with the latest upstream as determined by portscout.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		packages, err := Get(cmd, nil)
+		packages, err := GetPackages(Portscout{})
 		if err != nil {
 			return err
 		}

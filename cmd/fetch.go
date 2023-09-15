@@ -26,7 +26,7 @@ var fetchCmd = &cobra.Command{
 and then presents them in a user-friendly format.
 `,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		packages, err := Get(cmd, nil)
+		packages, err := GetPackages(Portscout{})
 		if err != nil {
 			return err
 		}

@@ -17,7 +17,7 @@ var testCmd = &cobra.Command{
 	Short: "Run local port(s) test suite",
 	Long:  `Attempt to run test suites on port(s) from local ports tree.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		packages, err := Get(cmd, nil)
+		packages, err := GetPackages(Portscout{})
 		if err != nil {
 			return err
 		}

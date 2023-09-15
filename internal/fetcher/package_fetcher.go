@@ -8,20 +8,11 @@ package fetcher
 
 import (
 	. "github.com/lcook/portsync/internal/_package"
-	"github.com/spf13/cobra"
 )
 
 type PackageFetcher interface {
-	Fetch(*cobra.Command) (*Packages, error)
-	Transform(*cobra.Command, *Package) (*Package, error)
+	Fetch() (*Packages, error)
+	Transform(*Package) (*Package, error)
 }
 
-type defaultFetcher = Portscout
-
-func Get(cmd *cobra.Command, p PackageFetcher) (*Packages, error) {
-	if p == nil {
-		p = defaultFetcher{}
-	}
-	return p.Fetch(cmd)
-
-}
+func GetPackages(p PackageFetcher) (*Packages, error) { return p.Fetch() }

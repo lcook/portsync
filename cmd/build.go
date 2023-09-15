@@ -17,7 +17,7 @@ var buildCmd = &cobra.Command{
 	Short: "Build local port(s)",
 	Long:  `Attempt to build port(s) from local ports tree.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		packages, err := Get(cmd, nil)
+		packages, err := GetPackages(Portscout{})
 		if err != nil {
 			return err
 		}
