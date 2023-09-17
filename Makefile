@@ -5,7 +5,8 @@
 # All rights reserved.
 #
 PROG=		portsync
-VERSION=	0.2
+VERSIONPREFIX=	v
+VERSION=	${VERSIONPREFIX}0.2.0
 
 LOCALBASE?=	/usr/local
 BINDIR=		${LOCALBASE}/bin
