@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+#
+# Basic script printing the latest package version.
+#
+echo "[$PACKAGE_ORIGIN@$PACKAGE_VERSION] New update to $PACKAGE_LATEST"

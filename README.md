@@ -101,6 +101,15 @@ Or even be able to output updates in a particular file format, such as JSON
 portsync fetch -f '{"origin": "%o", "current": "%v", "latest": "%l"}'
 ```
 
+Run arbitrary commands and/or scripts
+```sh
+portsync run -o misc/broot examples/genjson
+{"origin": "misc/broot", "version": "1.25.0", "newversion": "1.25.1"}
+portsync run 'if [ $PACKAGE_ORIGIN == "misc/broot" ]; then echo "$PACKAGE_ORIGIN!"; fi'
+misc/broot!
+```
+See [examples](examples) for example scripts.
+
 Happy hacking!
 
 ## License

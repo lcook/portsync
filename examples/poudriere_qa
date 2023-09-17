@@ -1,0 +1,61 @@
+#!/usr/bin/env sh
+#
+# In this script we create a differential patch of unstaged changes
+# of a port from our local ports repository, and make an attempt
+# to apply the patch to a remote server containing a Poudirere
+# ports tree.
+#
+# Assuming the patch applied cleanly, run `testport` for each of
+# the jails defined on the particular port we made changes to.
+# Report back build status when completed.
+#
+# Usual workflow may be as follows:
+# $ portsync update -o foo/bar
+# $ portsync run -o foo/bar examples/poudriere_qa
+# $ git add foo/bar/*
+# $ git commit -m "foo/bar: Update to latest version"
+# 
+buildhost="host@example.org"  # Domain or IP of remote build host.
+buildport=  # ssh port of remote build host.
+jails="your jails"  # List of jails.  E.g., "12-amd64 13-amd63".
+porttree=  # Tree name of Poudriere ports tree.
+portdir=   # Directory to Poudirere ports repository.
+
+package="$PACKAGE_ORIGIN"
+
+_port=${buildport:-"22"}
+if ! ssh -o BatchMode=yes -o ConnectTimeout=10 -p\
+  "$_port" $buildhost "exit"; then
+  printf "\nCould not connect to build host.  Diagnose issue and try again\n"
+  exit 1
+fi
+
+_dir=${portdir:-"/usr/local/poudriere/ports/default"}
+_tree=${porttree:-"default"}
+if ! _diff=$(git -C "$PACKAGE_ROOT" diff "$package"\
+  | ssh -o BatchMode=yes -p "$_port" $buildhost "git -C $_dir apply -p0"); then
+  echo "$_diff"
+  echo "Unable to apply patch to $package on build host cleanly"
+  echo "Verify the integrity of the remote ports tree repository and try again"
+  exit 1
+fi
+
+_failed=
+_built=
+for j in $jails; do
+  if ! ssh -o BatchMode=yes -p "$_port" $buildhost\
+    "poudriere testport -j $j -p $_tree $package"; then
+    _failed="$_failed $j"
+    continue
+  _built="$_built $j"
+  fi
+done
+
+# Restore remote ports tree to a clean state.
+ssh -o BatchMode=yes -p "$_port" $buildhost "git -C $_dir restore $package"
+
+echo ===================================================
+printf "===> Poudriere results for %s\n" "$package"
+
+[ -n "$_built"  ] && echo "=>> Built:$_built"
+[ -n "$_failed" ] && echo "=>> Failed:$_failed" && exit 1

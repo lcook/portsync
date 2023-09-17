@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+#
+# Generate JSON output of available package updates.
+#
+echo '{"origin": "'$PACKAGE_ORIGIN'", "version": "'$PACKAGE_VERSION'", "newversion": "'$PACKAGE_LATEST'"}'
