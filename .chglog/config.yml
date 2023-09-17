@@ -1,0 +1,21 @@
+style: github
+template: CHANGELOG.tpl.md
+info:
+  title: CHANGELOG
+  repository_url: https://github.com/lcook/portsync
+options:
+  commit_groups:
+     title_maps:
+       feat: New features
+       fix: Bug fixes
+       refactor: Code refactoring
+       nit: Nits
+       chore: Chores
+  header:
+    pattern: "^(\\w*)\\:\\s(.*)$"
+    pattern_maps:
+      - Type
+      - Subject
+  notes:
+    keywords:
+      - BREAKING CHANGE
