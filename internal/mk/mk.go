@@ -16,21 +16,8 @@ import (
 	"github.com/spf13/viper"
 )
 
-var pkgEnv = func(pkg *Package) map[string]string {
-	return map[string]string{
-		"PACKAGE_ORIGIN":     pkg.Origin,
-		"PACKAGE_VERSION":    pkg.Version,
-		"PACKAGE_LATEST":     pkg.Latest,
-		"PACKAGE_MAINTAINER": pkg.Maintainer,
-		"PACKAGE_TYPE":       pkg.Type,
-		"PACKAGE_DIR":        CleanPath(viper.GetString("base")) + pkg.Origin,
-	}
-}
-
 func run(pkg *Package, makefile string) {
-	for k, v := range pkgEnv(pkg) {
-		os.Setenv(k, v)
-	}
+	SetPkgEnv(pkg)
 	scriptDir := CleanPath(viper.GetString("scriptdir"))
 	args := strings.Fields("make -f" + scriptDir + makefile)
 	cmd := exec.Command(args[0], args[1:]...)
