@@ -93,7 +93,7 @@ of available package updates through `fzf`
 ```sh
 portsync fetch -f "%o" | fzf --multi \
   --header "Select port(s) to update" --preview "pkg rquery -r FreeBSD '%e' {}" \
-  --preview-window=up | xargs portsync update -o
+  --preview-window=up | xargs -n1 portsync update -o
 ```
 
 Or even be able to output updates in a particular file format, such as JSON
