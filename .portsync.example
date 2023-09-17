@@ -11,6 +11,13 @@
 # below.
 #origins = ["x11/xmenu", "devel/gh"]
 
+# Exclusivity filter of package origins.
+# Sometimes portscout is unable to correctly
+# determine the latest version, so in some
+# instances it may be desirable to filter
+# out erroneous packages.
+#excludes = ["sysutils/duf", "misc/broot"]
+
 # Location in which the Makefile scripts
 # are located.
 #scriptDir = "/usr/lcoal/share/portsync/Mk"  # Default

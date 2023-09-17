@@ -82,6 +82,12 @@ func (ps Portscout) Fetch() (*Packages, error) {
 			return !slices.Contains(origins, pkg.Origin)
 		})
 	}
+	excludes := viper.GetStringSlice("excludes")
+	if len(excludes) > 0 {
+		packages.Filter(func(pkg Package) bool {
+			return slices.Contains(excludes, pkg.Origin)
+		})
+	}
 	return &packages, nil
 }
 
