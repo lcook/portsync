@@ -41,4 +41,4 @@ uninstall:
 	rm -rfv ${SHAREDIR}/${PROG}
 	rm -rf ${BINDIR}/${PROG}
 
-.PHONY: all build clean install
+.PHONY:	all build clean install
