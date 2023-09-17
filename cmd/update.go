@@ -1,3 +1,4 @@
+//go:build freebsd
 /*
  * SPDX-License-Identifier: BSD-2-Clause
  *
