@@ -27,6 +27,8 @@ const (
 	packageDefault string = "DEFAULT"
 	packageCargo          = "CARGO"
 	packageGo             = "GO"
+
+	errNoPackages string = "no package updates found for maintainer '%s'"
 )
 
 type Portscout struct{}
@@ -38,7 +40,7 @@ func (ps Portscout) Fetch() (*Packages, error) {
 		return nil, err
 	}
 	if len(data) < 1 {
-		return nil, fmt.Errorf("no package updates found for maintainer '%s'", maintainer)
+		return nil, fmt.Errorf(errNoPackages, maintainer)
 	}
 	var (
 		errors   = make(chan error, 1)
