@@ -43,7 +43,7 @@ func (ps Portscout) Fetch() (*Packages, error) {
 		return nil, fmt.Errorf(errNoPackages, maintainer)
 	}
 	var (
-		errors   = make(chan error, 1)
+		errChan  = make(chan error, 1)
 		wgroup   sync.WaitGroup
 		mutex    sync.Mutex
 		packages Packages
@@ -59,7 +59,7 @@ func (ps Portscout) Fetch() (*Packages, error) {
 				Type:   packageDefault,
 			})
 			if err != nil {
-				errors <- err
+				errChan <- err
 				return
 			}
 			mutex.Lock()
@@ -69,9 +69,9 @@ func (ps Portscout) Fetch() (*Packages, error) {
 	}
 	go func() {
 		wgroup.Wait()
-		close(errors)
+		close(errChan)
 	}()
-	if err := <-errors; err != nil {
+	if err := <-errChan; err != nil {
 		return &Packages{}, err
 	}
 	packages.Filter(func(pkg Package) bool {
