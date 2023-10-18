@@ -90,7 +90,7 @@ func (ps Portscout) Fetch() (*Packages, error) {
 			return slices.Contains(excludes, pkg.Origin)
 		})
 	}
-	if len(origins) < 1 {
+	if len(packages) < 1 {
 		return nil, fmt.Errorf(errNoPackages, maintainer)
 	}
 	return &packages, nil
